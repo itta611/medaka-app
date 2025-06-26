@@ -176,7 +176,6 @@ export default function Home() {
         onClick={() => {
           if (isPlaying) {
             stopSound();
-            setIsPlaying(false);
             setForcePlaying(false);
           } else {
             startSound();
