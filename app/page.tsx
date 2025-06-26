@@ -14,7 +14,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
-  const [selectedFrequency, setSelectedFrequency] = useState("800");
+  const [selectedFrequency, setSelectedFrequency] = useState("150");
   const [selectedMusic, setSelectedMusic] = useState("tiktok");
   const [isPlaying, setIsPlaying] = useState(false);
   const [forcePlaying, setForcePlaying] = useState(false);
@@ -122,14 +122,14 @@ export default function Home() {
       </AlertDialog>
       {mode === "normal" ? (
         <Tabs
-          defaultValue="800"
+          defaultValue="150"
           className="items-center h-[200px] justify-center"
           onValueChange={setSelectedFrequency}
           value={selectedFrequency}
         >
           <TabsList>
-            <TabsTrigger value="800">150Hz</TabsTrigger>
-            <TabsTrigger value="1600">5000Hz</TabsTrigger>
+            <TabsTrigger value="150">150Hz</TabsTrigger>
+            <TabsTrigger value="5000">4000Hz</TabsTrigger>
           </TabsList>
         </Tabs>
       ) : (
