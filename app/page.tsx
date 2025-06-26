@@ -37,7 +37,7 @@ export default function Home() {
       // 通常モードの場合は周波数を再生
       if (!audioContextRef.current) {
         audioContextRef.current = new (window.AudioContext ||
-          // @ts-expect-error
+          // @ts-expect-error webkitAudioContext
           (window as Window).webkitAudioContext)();
       }
 
