@@ -185,7 +185,7 @@ export default function Home() {
           }
         }}
       >
-        強制{isPlaying ? "停止" : "再生"}
+        強制{isPlaying ? "再生中" : "再生"}
       </Button>
     </div>
   );
