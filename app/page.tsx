@@ -37,7 +37,8 @@ export default function Home() {
       // 通常モードの場合は周波数を再生
       if (!audioContextRef.current) {
         audioContextRef.current = new (window.AudioContext ||
-          (window as any).webkitAudioContext)();
+          // @ts-ignore
+          (window as Window).webkitAudioContext)();
       }
 
       const oscillator = audioContextRef.current.createOscillator();
