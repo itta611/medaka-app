@@ -21,30 +21,49 @@ export default function Home() {
   const [mode, setMode] = useState("normal");
   const audioContextRef = useRef<AudioContext | null>(null);
   const oscillatorRef = useRef<OscillatorNode | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const startSound = () => {
-    if (!audioContextRef.current) {
-      audioContextRef.current = new (window.AudioContext ||
-        (window as any).webkitAudioContext)();
+    if (mode === "special") {
+      // スペシャルモードの場合は音楽を再生
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      const audio = new Audio(`/${selectedMusic}.mp3`);
+      audio.loop = true;
+      audio.play();
+      audioRef.current = audio;
+    } else {
+      // 通常モードの場合は周波数を再生
+      if (!audioContextRef.current) {
+        audioContextRef.current = new (window.AudioContext ||
+          (window as any).webkitAudioContext)();
+      }
+
+      const oscillator = audioContextRef.current.createOscillator();
+      oscillator.type = "sine";
+      oscillator.frequency.setValueAtTime(
+        parseInt(selectedFrequency),
+        audioContextRef.current.currentTime
+      );
+
+      oscillator.connect(audioContextRef.current.destination);
+      oscillator.start();
+
+      oscillatorRef.current = oscillator;
     }
-
-    const oscillator = audioContextRef.current.createOscillator();
-    oscillator.type = "sine";
-    oscillator.frequency.setValueAtTime(
-      parseInt(selectedFrequency),
-      audioContextRef.current.currentTime
-    );
-
-    oscillator.connect(audioContextRef.current.destination);
-    oscillator.start();
-
-    oscillatorRef.current = oscillator;
   };
 
   const stopSound = () => {
-    if (isPlaying && oscillatorRef.current) {
-      oscillatorRef.current.stop();
-      oscillatorRef.current = null;
+    if (isPlaying) {
+      if (oscillatorRef.current) {
+        oscillatorRef.current.stop();
+        oscillatorRef.current = null;
+      }
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
       setIsPlaying(false);
     }
   };
@@ -60,7 +79,7 @@ export default function Home() {
     }
 
     // 午前8時から午後4時の間（8:00 - 16:00）
-    if (hours >= 8 && hours < 16) {
+    if (hours >= 8 && hours <= 14) {
       setIsPlaying(true);
       startSound();
     } else {
@@ -80,7 +99,7 @@ export default function Home() {
       clearInterval(interval);
       stopSound();
     };
-  }, [selectedFrequency]);
+  }, [selectedFrequency, mode, selectedMusic]);
 
   return (
     <div className="max-w-[400px] m-auto py-4 px-2 relative h-screen">
