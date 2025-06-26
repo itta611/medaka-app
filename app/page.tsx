@@ -128,8 +128,8 @@ export default function Home() {
           value={selectedFrequency}
         >
           <TabsList>
-            <TabsTrigger value="800">800Hz</TabsTrigger>
-            <TabsTrigger value="1600">1600Hz</TabsTrigger>
+            <TabsTrigger value="800">150Hz</TabsTrigger>
+            <TabsTrigger value="1600">5000Hz</TabsTrigger>
           </TabsList>
         </Tabs>
       ) : (
