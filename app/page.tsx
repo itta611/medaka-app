@@ -11,10 +11,12 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
-  const [selectedFrequency, setSelectedFrequency] = useState("150");
+  const [selectedFrequency, setSelectedFrequency] = useState("4000");
   const [selectedMusic, setSelectedMusic] = useState("tiktok");
   const [isPlaying, setIsPlaying] = useState(false);
   const [forcePlaying, setForcePlaying] = useState(false);
@@ -121,17 +123,20 @@ export default function Home() {
         </AlertDialogContent>
       </AlertDialog>
       {mode === "normal" ? (
-        <Tabs
-          defaultValue="150"
-          className="items-center h-[200px] justify-center"
-          onValueChange={setSelectedFrequency}
-          value={selectedFrequency}
-        >
-          <TabsList>
-            <TabsTrigger value="150">150Hz</TabsTrigger>
-            <TabsTrigger value="5000">4000Hz</TabsTrigger>
-          </TabsList>
-        </Tabs>
+        <div className="flex flex-col items-center h-[200px] justify-center gap-4">
+          <Label htmlFor="frequency" className="text-lg">
+            周波数 (Hz)
+          </Label>
+          <Input
+            id="frequency"
+            type="number"
+            value={selectedFrequency}
+            onChange={(e) => setSelectedFrequency(e.target.value)}
+            className="w-32 text-center"
+            min="20"
+            max="20000"
+          />
+        </div>
       ) : (
         <Tabs
           defaultValue="tiktok"
